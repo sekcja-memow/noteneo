@@ -15,12 +15,12 @@ from django.utils.translation import gettext_lazy as _
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY") or "64&w8&hf4h-$vx_fa(w@m006be(7x49r(bj34aucv9*l__bi2d"
 
-DEBUG = int(os.environ.get("DEBUG", default=0))
+DEBUG = int(os.environ.get("DEBUG") or 0)
 
-ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
-
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS") or ['*']
 
 # Application definition
 
@@ -84,12 +84,12 @@ WSGI_APPLICATION = 'api.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.environ.get("SQL_DATABASE", os.path.join(BASE_DIR, "db.sqlite3")),
-        "USER": os.environ.get("SQL_USER", "user"),
-        "PASSWORD": os.environ.get("SQL_PASSWORD", "password"),
-        "HOST": os.environ.get("SQL_HOST", "localhost"),
-        "PORT": os.environ.get("SQL_PORT", "5432"),
+        "ENGINE": os.environ.get("SQL_ENGINE") or "django.db.backends.sqlite3",
+        "NAME": os.environ.get("SQL_DATABASE") or os.path.join(BASE_DIR, "db.sqlite3"),
+        "USER": os.environ.get("SQL_USER") or "user",
+        "PASSWORD": os.environ.get("SQL_PASSWORD") or "password",
+        "HOST": os.environ.get("SQL_HOST") or "localhost",
+        "PORT": os.environ.get("SQL_PORT") or "5432",
     }
 }
 
@@ -127,12 +127,6 @@ LANGUAGES = [
     ('en', _('English')),
 ]
 
-STATIC_URL = "/staticfiles/"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "staticfiles")
-]
-
-MEDIA_URL = "/mediafiles/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
+STATIC_URL = "/static/"
 
 UPLOAD_FILES_DIR = 'uploads/'
