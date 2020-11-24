@@ -139,3 +139,4 @@ UPLOAD_FILES_DIR = 'uploads/'
 
 AUTH_USER_MODEL = 'users.User'
 ACCOUNT_UNIQUE_EMAIL = True
+DEFAULT_USER_IMAGE = "defaults/default-picture.png"

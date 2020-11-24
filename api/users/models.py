@@ -1,9 +1,19 @@
+import datetime
+import os
+import uuid
+
+from django.conf import settings
 from django.contrib.auth import models as auth_models
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from users import managers
+
+
+def get_file_path(instance, filename: str) -> str:
+    today = datetime.date.today().strftime("%Y-%m-%d")
+    return os.path.join(settings.UPLOAD_FILES_DIR, today, str(uuid.uuid4()) + filename)
 
 
 class User(auth_models.AbstractUser):
@@ -16,6 +26,7 @@ class User(auth_models.AbstractUser):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(verbose_name=_('Date joined'), default=timezone.now)
+    image = models.ImageField(upload_to=get_file_path, default=settings.DEFAULT_USER_IMAGE)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ('name',)
