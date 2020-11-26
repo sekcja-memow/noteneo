@@ -11,6 +11,8 @@ psycopg2-binary = "~=2.8.5"
 autopep8 = "*"
 django-extensions = "*"
 pillow = "*"
+django_rest_passwordreset = "*"
+
 
 [dev-packages]
 

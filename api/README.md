@@ -19,10 +19,57 @@ python manage.py runserver
 # Api spec
 
 ## Authorization
-Send `POST` request to `/auth` endpoint with `username` and `password` keys, and the response will contain the authentication token. Next, you need to attach it as authorization header to each request in form of
+Send `POST` request to `/users/token/` endpoint with `email` and `password` keys, and the response will contain the authentication token. Next, you need to attach it as authorization header to each request in form of
 ```
 Authorization: Token YOUR_TOKEN_VALUE
 ```
+If everything is `OK` you received:
+```
+{
+    "token": <token>,
+    "email": <email>,
+    "user_id": <user_id>
+}
+```
+
+## Create an account
+To create an account send `POST` request to `/users/register/` endpoint with `email`, `name` and `password` keys, and the response will like this:
+```
+{
+    "email": <email>,
+    "name": <name>,
+    "image": <default_image_url>
+}
+```
+
+## Profile
+You can manage user's profile using `/users/profile/` endpoint.
+Send `GET` request to get authenticated user's details or you can modifiy user's profile using `PUT` or `PATCH` request methods.
+
+Example reponse for `GET` request:
+```
+{
+    "email": <email>,
+    "name": <name>,
+    "image": <default_image_url>
+}
+```
+
+## Reset password
+To reset user's password you can use the `/users/password-reset/` endpoint and send `POST` request with user's email:
+
+Example usage:
+```bash
+curl -d "email=<user.email>" -X POST http://127.0.0.1:8000/users/password-reset/
+```
+
+In response, the user will receive an appropriate token by e-mail.
+
+To confirm password reset you must send `POST` request with the token received by e-mail and new password:
+```bash
+curl -d "token=<token>>&password=<new_password>" -X POST http://127.0.0.1:8000/users/password-reset/confirm/
+``` 
+
 
 # Common dev actions
 

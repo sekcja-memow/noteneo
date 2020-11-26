@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     # Third party
     'django_extensions',
     'rest_framework',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'django_rest_passwordreset',
 ] + APPS
 
 MIDDLEWARE = [
@@ -140,3 +141,12 @@ UPLOAD_FILES_DIR = 'uploads/'
 AUTH_USER_MODEL = 'users.User'
 ACCOUNT_UNIQUE_EMAIL = True
 DEFAULT_USER_IMAGE = "defaults/default-picture.png"
+
+
+SENDER_EMAIL = ''
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
