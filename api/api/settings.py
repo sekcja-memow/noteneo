@@ -26,6 +26,7 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS") or ['*']
 
 APPS = [
     'users',
+    'notes',
 ]
 
 INSTALLED_APPS = [

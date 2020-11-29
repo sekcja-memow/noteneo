@@ -10,7 +10,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.dispatch import receiver
 from django_rest_passwordreset.signals import reset_password_token_created
-from django.core.mail import send_mail
 
 from emails.emails import ResetPasswordEmail
 
@@ -22,12 +21,23 @@ def get_file_path(instance, filename: str) -> str:
     return os.path.join(settings.UPLOAD_FILES_DIR, today, str(uuid.uuid4()) + filename)
 
 
+class Address(models.Model):
+    postal = models.CharField(max_length=255)
+    location = models.CharField(max_length=255)
+    country = models.CharField(max_length=2)
+
+
 class User(auth_models.AbstractUser):
+    """
+    from Notes
+    bookmarks   - Many2Many with Note
+    likes       - Many2Many with Note
+    """
     username = None
 
     email = models.EmailField(unique=True, verbose_name=_('Email address'))
     name = models.CharField(max_length=100, verbose_name=_('Name'))
-    address = models.CharField(max_length=200, blank=True, verbose_name=_('Address'))
+    address = models.OneToOneField(Address, blank=True, on_delete=models.CASCADE)
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

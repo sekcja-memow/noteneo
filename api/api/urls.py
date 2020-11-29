@@ -14,7 +14,7 @@ router.register(r'hello_auth', views.AuthHelloViewSet, basename='hello_auth')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(router.urls)),
-    path('users/', include('users.urls')),
+    path('users/', include('users.api.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
