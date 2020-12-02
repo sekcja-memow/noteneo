@@ -38,7 +38,10 @@ To create an account send `POST` request to `/users/register/` endpoint with `em
 {
     "email": <email>,
     "name": <name>,
-    "image": <default_image_url>
+    "image": <default_image_url>,
+    "postal_code": <postal_code>,
+    "address": <address>,
+    "country_code": <country_code>
 }
 ```
 
@@ -51,7 +54,10 @@ Example reponse for `GET` request:
 {
     "email": <email>,
     "name": <name>,
-    "image": <default_image_url>
+    "image": <default_image_url>,
+    "postal_code": <postal_code>,
+    "address": <address>,
+    "country_code": <country_code>
 }
 ```
 

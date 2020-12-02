@@ -12,19 +12,12 @@ from django.dispatch import receiver
 from django_rest_passwordreset.signals import reset_password_token_created
 
 from emails.emails import ResetPasswordEmail
-
 from users import managers
 
 
 def get_file_path(instance, filename: str) -> str:
     today = datetime.date.today().strftime("%Y-%m-%d")
     return os.path.join(settings.UPLOAD_FILES_DIR, today, str(uuid.uuid4()) + filename)
-
-
-class Address(models.Model):
-    postal = models.CharField(max_length=255)
-    location = models.CharField(max_length=255)
-    country = models.CharField(max_length=2)
 
 
 class User(auth_models.AbstractUser):
@@ -37,12 +30,15 @@ class User(auth_models.AbstractUser):
 
     email = models.EmailField(unique=True, verbose_name=_('Email address'))
     name = models.CharField(max_length=100, verbose_name=_('Name'))
-    address = models.OneToOneField(Address, blank=True, on_delete=models.CASCADE)
 
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(verbose_name=_('Date joined'), default=timezone.now)
     image = models.ImageField(upload_to=get_file_path, default=settings.DEFAULT_USER_IMAGE)
+
+    postal_code = models.CharField(max_length=10, blank=True, null=True)
+    address = models.CharField(max_length=255, blank=True, null=True)
+    country_code = models.CharField(max_length=2, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ('name',)

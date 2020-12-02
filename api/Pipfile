@@ -12,7 +12,7 @@ autopep8 = "*"
 django-extensions = "*"
 pillow = "*"
 django_rest_passwordreset = "*"
-
+django-cors-headers = "*"
 
 [dev-packages]
 
