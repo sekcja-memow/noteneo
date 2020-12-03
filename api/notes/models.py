@@ -1,5 +1,4 @@
 from django.db import models
-
 from users.models import User
 
 
@@ -15,12 +14,9 @@ class Note(models.Model):
     content = models.TextField(null=True, blank=True)
     author = models.ForeignKey('users.User', related_name='my_notes', on_delete=models.CASCADE)
 
-    is_free = models.BooleanField(default=False)
-
     categories = models.ManyToManyField('Category', related_name='notes', blank=True)
     bookmarks = models.ManyToManyField('users.User', related_name='bookmarks', blank=True)
     likes = models.ManyToManyField('users.User', related_name='likes', blank=True)
-    unlocks = models.ManyToManyField('users.User', related_name='unlocks', blank=True)
 
     class Meta:
         ordering = ('title',)
@@ -33,9 +29,6 @@ class Note(models.Model):
 
     def categorize(self, category: Category):
         self.categories.add(category)
-
-    def unlock(self, user: User):
-        self.unlocks.add(user)
 
     @property
     def likes_count(self) -> int:

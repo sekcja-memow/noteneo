@@ -14,10 +14,10 @@ class NoteSerializer(serializers.ModelSerializer):
     likes_count = serializers.IntegerField(read_only=True)
     categories = CategorySerializer(many=True, read_only=True)
     author = users_serializers.UserSerializer(read_only=True)
-    # TODO: handle POST/PUT/PATCH for categories
+
     class Meta:
         model = models.Note
-        fields = ('id', 'title', 'content', 'is_free', 'categories', 'author', 'likes_count')
+        fields = ('id', 'title', 'content', 'categories', 'author', 'likes_count')
 
 
 class NoteSerializerShort(serializers.ModelSerializer):

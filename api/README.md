@@ -19,7 +19,7 @@ python manage.py runserver
 # Api spec
 
 ## Authorization
-Send `POST` request to `/users/token/` endpoint with `email` and `password` keys, and the response will contain the authentication token. Next, you need to attach it as authorization header to each request in form of
+Send `POST` request to `/api/users/token/` endpoint with `email` and `password` keys, and the response will contain the authentication token. Next, you need to attach it as authorization header to each request in form of
 ```
 Authorization: Token YOUR_TOKEN_VALUE
 ```
@@ -33,7 +33,7 @@ If everything is `OK` you received:
 ```
 
 ## Create an account
-To create an account send `POST` request to `/users/register/` endpoint with `email`, `name` and `password` keys, and the response will like this:
+To create an account send `POST` request to `/api/users/register/` endpoint with `email`, `name` and `password` keys, and the response will like this:
 ```
 {
     "email": <email>,
@@ -46,7 +46,7 @@ To create an account send `POST` request to `/users/register/` endpoint with `em
 ```
 
 ## Profile
-You can manage user's profile using `/users/profile/` endpoint.
+You can manage user's profile using `/api/users/profile/` endpoint.
 Send `GET` request to get authenticated user's details or you can modifiy user's profile using `PUT` or `PATCH` request methods.
 
 Example reponse for `GET` request:
@@ -62,20 +62,22 @@ Example reponse for `GET` request:
 ```
 
 ## Reset password
-To reset user's password you can use the `/users/password-reset/` endpoint and send `POST` request with user's email:
+To reset user's password you can use the `/api/users/password-reset/` endpoint and send `POST` request with user's email:
 
 Example usage:
 ```bash
-curl -d "email=<user.email>" -X POST http://127.0.0.1:8000/users/password-reset/
+curl -d "email=<user.email>" -X POST http://127.0.0.1:8000/api/users/password-reset/
 ```
 
 In response, the user will receive an appropriate token by e-mail.
 
 To confirm password reset you must send `POST` request with the token received by e-mail and new password:
 ```bash
-curl -d "token=<token>>&password=<new_password>" -X POST http://127.0.0.1:8000/users/password-reset/confirm/
+curl -d "token=<token>>&password=<new_password>" -X POST http://127.0.0.1:8000/api/users/password-reset/confirm/
 ``` 
 
+# Notes API
+Send `GET` request to `/api/notes/` to list all available notes. 
 
 # Common dev actions
 

@@ -23,8 +23,9 @@ def get_file_path(instance, filename: str) -> str:
 class User(auth_models.AbstractUser):
     """
     from Notes
-    bookmarks   - Many2Many with Note
-    likes       - Many2Many with Note
+    bookmarks       - Many2Many with Note
+    likes           - Many2Many with Note
+    subscription    - One2One with Subscription
     """
     username = None
 
@@ -50,6 +51,19 @@ class User(auth_models.AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+class Subscription(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    user = models.OneToOneField('users.User', on_delete=models.PROTECT, related_name='subscription')
+    start_date = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('start_date', 'user',)
+
+    @property
+    def is_active(self) -> bool:
+        return self.start_date + datetime.timedelta(days=31) - timezone.now() < datetime.timedelta(days=0)
 
 
 @receiver(reset_password_token_created)
