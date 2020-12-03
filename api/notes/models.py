@@ -11,12 +11,16 @@ class Category(models.Model):
 
 class Note(models.Model):
     title = models.CharField(max_length=255)
-    content = models.TextField(null=True, blank=True)
-    author = models.ForeignKey('users.User', related_name='my_notes', on_delete=models.CASCADE)
+    content = models.TextField()
+    author = models.ForeignKey(
+        'users.User', related_name='my_notes', on_delete=models.CASCADE)
 
-    categories = models.ManyToManyField('Category', related_name='notes', blank=True)
-    bookmarks = models.ManyToManyField('users.User', related_name='bookmarks', blank=True)
-    likes = models.ManyToManyField('users.User', related_name='likes', blank=True)
+    categories = models.ManyToManyField(
+        'Category', related_name='notes', blank=True)
+    bookmarks = models.ManyToManyField(
+        'users.User', related_name='bookmarks', blank=True)
+    likes = models.ManyToManyField(
+        'users.User', related_name='likes', blank=True)
 
     class Meta:
         ordering = ('title',)
