@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get(
     "SECRET_KEY") or "64&w8&hf4h-$vx_fa(w@m006be(7x49r(bj34aucv9*l__bi2d"
 
-DEBUG = int(os.environ.get("DEBUG") or 0)
+DEBUG = int(os.environ.get("DEBUG") or 1)
 
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS") or ['*']
 
