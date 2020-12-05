@@ -1,7 +1,7 @@
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from .serializers import NoteSerializer, NoteSerializerShort
 
@@ -9,12 +9,21 @@ from notes import models
 from notes.api import permissions
 
 
-class NoteListView(mixins.ListModelMixin, generics.GenericAPIView):
+class NoteListView(mixins.CreateModelMixin,
+                   mixins.ListModelMixin,
+                   generics.GenericAPIView):
     queryset = models.Note.objects.all()
     serializer_class = NoteSerializerShort
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
 
     def get_queryset(self):
         qs = models.Note.objects.all()
@@ -60,20 +69,6 @@ class NoteRetrieveView(mixins.RetrieveModelMixin,
         return NoteSerializerShort
 
 
-class NoteCreateView(mixins.CreateModelMixin,
-                     generics.GenericAPIView):
-    queryset = models.Note.objects.all()
-    serializer_class = NoteSerializer
-    authentication_classes = (TokenAuthentication,)
-    permission_classes = (IsAuthenticated,)
-
-    def post(self, request, *args, **kwargs):
-        return self.create(request, *args, **kwargs)
-
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
-
-
 class UserNotesListView(mixins.ListModelMixin,
                         generics.GenericAPIView):
     queryset = models.Note.objects.all()
@@ -85,4 +80,4 @@ class UserNotesListView(mixins.ListModelMixin,
         return self.list(request, *args, **kwargs)
 
     def get_queryset(self):
-        return models.Note.objects.filter(author=self.request.user)
+        return models.Note.objects.filter(author__email=self.request.user.email)

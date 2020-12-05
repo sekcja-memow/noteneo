@@ -8,6 +8,5 @@ app_name = 'notes'
 urlpatterns = [
     path('', views.NoteListView.as_view(), name='notes-list'),
     path('<int:pk>/', views.NoteRetrieveView.as_view(), name='notes-details'),
-    path('create/', views.NoteCreateView.as_view(), name='notes-create'),
     path('my-notes/', views.UserNotesListView.as_view(), name='my-notes'),
 ]
