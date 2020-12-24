@@ -13,6 +13,9 @@ django-extensions = "*"
 pillow = "*"
 django_rest_passwordreset = "*"
 django-cors-headers = "*"
+coreapi = "*"
+pyyaml = "*"
+uritemplate = "*"
 
 [dev-packages]
 

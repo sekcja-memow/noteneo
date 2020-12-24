@@ -62,11 +62,13 @@ class NoteRetrieveView(mixins.RetrieveModelMixin,
         return self.destroy(request, *args, **kwargs)
 
     def get_serializer_class(self):
-        if not self.request.user.is_authenticated:
+        try:
+            if not self.request.user.is_authenticated:
+                return NoteSerializerShort
+            if self.get_object().author == self.request.user or self.request.user.subscription.is_active:
+                return NoteSerializer
+        except AttributeError:
             return NoteSerializerShort
-        if self.get_object().author == self.request.user or self.request.user.subscription.is_active:
-            return NoteSerializer
-        return NoteSerializerShort
 
 
 class UserNotesListView(mixins.ListModelMixin,
